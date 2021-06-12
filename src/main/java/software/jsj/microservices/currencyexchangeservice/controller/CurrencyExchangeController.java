@@ -1,5 +1,7 @@
 package software.jsj.microservices.currencyexchangeservice.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import java.math.BigDecimal;
 
 @RestController
 public class CurrencyExchangeController {
+    private final Logger log = LoggerFactory.getLogger(CurrencyExchangeController.class);
 
     @Autowired
     private CurrencyExchangeRepository repository;
@@ -22,6 +25,8 @@ public class CurrencyExchangeController {
     @GetMapping("/currency-exchange/from/{from}/to/{to}")
     public CurrencyExchange retrieveExchangeValue(
             @PathVariable String from, @PathVariable String to) {
+
+        log.info("retrieveExchangeValue called with parameters '{}' to '{}'", from, to);
 
         //CurrencyExchange currencyExchange = new CurrencyExchange(1000L, from, to, BigDecimal.valueOf(50));
         CurrencyExchange currencyExchange = repository.findByFromAndTo(from, to);
